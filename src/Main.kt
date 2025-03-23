@@ -31,8 +31,12 @@ fun calcularTensao() {
     println("\nCalculando Tensão (V = R * I)")
     val r = obterEntradaNumerica("Digite a Resistência (Ω): ")
     val i = obterEntradaNumerica("Digite a Corrente (A): ")
-    val v = r * i
+    val v = calcularTensao(r, i)
     println("Resultado: Tensão (V) = %.2f V".format(v))
+}
+
+fun calcularTensao(r: Double, i: Double): Double {
+    return r * i
 }
 
 // Calcula a Resistência (R = V / I)
@@ -41,12 +45,17 @@ fun calcularResistencia() {
     val v = obterEntradaNumerica("Digite a Tensão (V) em Volts: ")
     val i = obterEntradaNumerica("Digite a Corrente (I) em Amperes:")
 
-    if (i == 0.0) {
-        println("Erro: Corrente não pode ser zero para este cálculo.")
-    } else {
-        val r = v / i
+    try {
+        val r = calcularResistencia(v, i)
         println("Resultado: Resistência (R) = %.2f Ohms (Ω)".format(r))
+    } catch (e: IllegalArgumentException) {
+        println("Erro: ${e.message}")
     }
+}
+
+fun calcularResistencia(v: Double, i: Double): Double {
+    if (i == 0.0) throw IllegalArgumentException("Corrente não pode ser zero para este cálculo.")
+    return v / i
 }
 
 // Calcula a Corrente (I = V / R)
@@ -55,12 +64,17 @@ fun calcularCorrente() {
     val v = obterEntradaNumerica("Digite a Tensão (V) em Volts: ")
     val r = obterEntradaNumerica("Digite a Resistência (R) em Ohms: ")
 
-    if (r == 0.0) {
-        println("Erro: Resistência não pode ser zero para este cálculo.")
-    } else {
-        val i = v / r
+    try {
+        val i = calcularCorrente(v, r)
         println("Resultado: Corrente (A) = %.2f A".format(i))
+    } catch (e: IllegalArgumentException) {
+        println("Erro: ${e.message}")
     }
+}
+
+fun calcularCorrente(v: Double, r: Double): Double {
+    if (r == 0.0) throw IllegalArgumentException("Resistência não pode ser zero para este cálculo.")
+    return v / r
 }
 
 // Obtém uma entrada numérica do usuário, garantindo que seja um número válido
