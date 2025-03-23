@@ -47,7 +47,7 @@ fun calcularTensao(r: Double, i: Double): Double {
 fun calcularResistencia() {
     println("\nCalculando Resistência (R = V / I)")
     val v = obterEntradaNumerica("Digite a Tensão (V) em Volts: ") // Obtém a tensão do usuário
-    val i = obterEntradaNumerica("Digite a Corrente (I) em Amperes:") // Obtém a corrente do usuário
+    val i = obterEntradaNumerica("Digite a Corrente (I) em Amperes: ") // Obtém a corrente do usuário
 
     try {
         val r = calcularResistencia(v, i) // Calcula a resistência
