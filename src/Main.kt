@@ -1,3 +1,4 @@
+@file:JvmName("JDoodle")
 fun main() {
     // Loop principal do programa que exibe o menu e executa a opção escolhida pelo usuário
     while (true) {
