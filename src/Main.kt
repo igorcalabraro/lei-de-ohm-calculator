@@ -1,25 +1,27 @@
 @file:JvmName("JDoodle")
 
-// Nome do projeto armazenado como uma constante global
+// Constantes globais com nome do projeto e meus dados
 const val NOME_PROJETO = "Calculadora da Lei de Ohm"
+const val NOME = "Igor Carvalho Calabraro"
+const val RA = "R8651G2"
 
+// Função principal que executa o menu interativo até o usuário escolher sair
 fun main() {
-    // Loop principal do programa, que exibe o menu até o usuário escolher sair
     while (true) {
         when (exibirMenu()) {
-            1 -> calcV() // Calcula a tensão
-            2 -> calcI() // Calcula a corrente
-            3 -> calcR() // Calcula a resistência
-            4 -> {
-                exibirMensagemSaida() // Exibe a mensagem final e encerra o programa
-                break
+            1 -> calcV() // Opção 1: calcular Tensão
+            2 -> calcI() // Opção 2: calcular Corrente
+            3 -> calcR() // Opção 3: calcular Resistência
+            4 -> {       // Opção 4: sair do programa
+                exibirMensagemSaida()
+                return // Encerra o programa
             }
-            else -> println("Opção inválida! Tente novamente.") // Mensagem para entradas inválidas
+            else -> println("Opção inválida! Tente novamente.") // Entrada inválida
         }
     }
 }
 
-// Exibe o menu e retorna a opção escolhida pelo usuário
+// Função que exibe o menu de opções e retorna a escolha do usuário
 fun exibirMenu(): Int {
     println("\n$NOME_PROJETO")
     println("Escolha o cálculo:")
@@ -27,81 +29,73 @@ fun exibirMenu(): Int {
     println("2. Corrente (I)")
     println("3. Resistência (R)")
     println("4. Sair")
-
-    // Lê a entrada do usuário e converte para Int, retornando -1 se a entrada for inválida
-    return readLine()?.toIntOrNull() ?: -1
+    return readLine()?.toIntOrNull() ?: -1 // Retorna -1 se a entrada for inválida
 }
 
-// Calcula a Tensão (V = R * I)
+// Função para calcular Tensão elétrica (V = R * I)
 fun calcV() {
     println("\nCalculando Tensão (V = R * I)")
 
-    // Obtém os valores necessários do usuário
-    val r = obterEntradaNumerica("Digite a Resistência (Ω): ")
-    val i = obterEntradaNumerica("Digite a Corrente (A): ")
+    // Solicita os valores de R e I com validação
+    val r = obterValorPositivo("Digite a Resistência (Ω): ")
+    val i = obterValorPositivo("Digite a Corrente (A): ")
 
-    // Calcula a tensão e exibe o resultado formatado
+    // Calcula e exibe o resultado da Tensão
     val v = r * i
-    println("Resultado: Tensão (V) = %.2f V".format(v))
+    println("Resultado: Tensão = %.2f V".format(v))
 }
 
-// Calcula a Corrente (I = V / R)
+// Função para calcular Corrente elétrica (I = V / R)
 fun calcI() {
     println("\nCalculando Corrente (I = V / R)")
 
-    // Obtém os valores necessários do usuário
-    val v = obterEntradaNumerica("Digite a Tensão (V): ")
-    val r = obterEntradaNumerica("Digite a Resistência (Ω): ")
+    val v = obterValorPositivo("Digite a Tensão (V): ")
+    var r: Double
 
-    // Verifica se a resistência é zero para evitar erro de divisão
-    if (r == 0.0) {
-        println("Erro: Resistência não pode ser zero.")
-        return
-    }
+    // Garante que a resistência não seja zero (evita divisão por zero)
+    do {
+        r = obterValorPositivo("Digite a Resistência (Ω): ")
+        if (r == 0.0) println("Resistência não pode ser zero.")
+    } while (r == 0.0)
 
-    // Calcula a corrente e exibe o resultado formatado
+    // Calcula e exibe o resultado da Corrente
     val i = v / r
-    println("Resultado: Corrente (A) = %.2f A".format(i))
+    println("Resultado: Corrente = %.2f A".format(i))
 }
 
-// Calcula a Resistência (R = V / I)
+// Função para calcular Resistência elétrica (R = V / I)
 fun calcR() {
     println("\nCalculando Resistência (R = V / I)")
 
-    // Obtém os valores necessários do usuário
-    val v = obterEntradaNumerica("Digite a Tensão (V): ")
-    val i = obterEntradaNumerica("Digite a Corrente (A): ")
+    val v = obterValorPositivo("Digite a Tensão (V): ")
+    var i: Double
 
-    // Verifica se a corrente é zero para evitar erro de divisão
-    if (i == 0.0) {
-        println("Erro: Corrente não pode ser zero.")
-        return
-    }
+    // Garante que a corrente não seja zero (evita divisão por zero)
+    do {
+        i = obterValorPositivo("Digite a Corrente (A): ")
+        if (i == 0.0) println("Corrente não pode ser zero.")
+    } while (i == 0.0)
 
-    // Calcula a resistência e exibe o resultado formatado
+    // Calcula e exibe o resultado da Resistência
     val r = v / i
-    println("Resultado: Resistência (Ω) = %.2f Ω".format(r))
+    println("Resultado: Resistência = %.2f Ω".format(r))
 }
 
-// Obtém uma entrada numérica do usuário, garantindo que seja válida
-fun obterEntradaNumerica(mensagem: String): Double {
+// Função que solicita ao usuário um número real positivo (>= 0)
+fun obterValorPositivo(mensagem: String): Double {
     while (true) {
-        print(mensagem) // Exibe a mensagem para o usuário inserir um valor
-        val input = readLine()?.toDoubleOrNull() // Tenta converter a entrada para Double
+        print(mensagem)
+        val input = readLine()?.toDoubleOrNull()
 
-        // Se a entrada for válida, retorna o valor
-        if (input != null) return input
+        // Retorna o valor se for um número real positivo
+        if (input != null && input >= 0) return input
 
-        // Se a entrada for inválida, exibe uma mensagem de erro e solicita novamente
-        println("Entrada inválida! Digite um número válido.")
+        // Caso contrário, mostra erro e repete a solicitação
+        println("Entrada inválida! Digite um número positivo.")
     }
 }
 
-// Exibe a mensagem de saída ao usuário
+// Função que exibe a mensagem de encerramento com nome e RA do desenvolvedor
 fun exibirMensagemSaida() {
-    val nome = "Igor Carvalho Calabraro" // Nome do desenvolvedor
-    val ra = "R8651G2" // Registro acadêmico (RA)
-
-    // Exibe a mensagem final informando o encerramento do programa
-    println("\nPrograma desenvolvido por $nome, RA $ra encerrado.")
+    println("\nPrograma desenvolvido por $NOME, RA $RA encerrado.")
 }
