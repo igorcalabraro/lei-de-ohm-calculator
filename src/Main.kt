@@ -42,7 +42,7 @@ fun calcV() {
 
     // Calcula e exibe o resultado da Tensão
     val v = r * i
-    println("Resultado: Tensão = %.2f V".format(v))
+    println("Resultado: Tensão = %.4f V".format(v))
 }
 
 // Função para calcular Corrente elétrica (I = V / R)
@@ -60,7 +60,7 @@ fun calcI() {
 
     // Calcula e exibe o resultado da Corrente
     val i = v / r
-    println("Resultado: Corrente = %.2f A".format(i))
+    println("Resultado: Corrente = %.4f A".format(i))
 }
 
 // Função para calcular Resistência elétrica (R = V / I)
@@ -78,7 +78,7 @@ fun calcR() {
 
     // Calcula e exibe o resultado da Resistência
     val r = v / i
-    println("Resultado: Resistência = %.2f Ω".format(r))
+    println("Resultado: Resistência = %.4f Ω".format(r))
 }
 
 // Função que solicita ao usuário um número real positivo (>= 0)
